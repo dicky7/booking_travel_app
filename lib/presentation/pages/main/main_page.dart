@@ -1,7 +1,12 @@
+import 'package:booking_travel_app/presentation/bloc/main_page/page_cubit.dart';
 import 'package:booking_travel_app/presentation/pages/main/home/home_page.dart';
+import 'package:booking_travel_app/presentation/pages/main/settings/settings_page.dart';
+import 'package:booking_travel_app/presentation/pages/main/transaction/transaction_page.dart';
+import 'package:booking_travel_app/presentation/pages/main/wallet/wallet_page.dart';
 import 'package:booking_travel_app/presentation/widget/custom_bottom_navigation_item.dart';
 import 'package:booking_travel_app/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainPage extends StatelessWidget {
   static const routeName = "/main_page";
@@ -10,20 +15,33 @@ class MainPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: kBackgroundColor,
-      body: SafeArea(
-        child: Stack(
-          children: [
-            buildContent(),
-            customBottomBarNavigation()],
-        ),
-      ),
+    return BlocBuilder<PageCubit, int>(
+      builder: (context, state) {
+        return Scaffold(
+          backgroundColor: kBackgroundColor,
+          body: SafeArea(
+            child: Stack(
+              children: [buildContent(state), customBottomBarNavigation()],
+            ),
+          ),
+        );
+      },
     );
   }
 
-  Widget buildContent(){
-    return const HomePage();
+  Widget buildContent(int currentIndex) {
+    switch (currentIndex) {
+      case 0:
+        return const HomePage();
+      case 1:
+        return const TransactionPage();
+      case 2:
+        return const WalletPage();
+      case 3:
+        return const SettingsPage();
+      default:
+        return const HomePage();
+    }
   }
 
   Widget customBottomBarNavigation() {
@@ -41,14 +59,21 @@ class MainPage extends StatelessWidget {
             ]),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: const [
+          children: [
             CustomBottomNavigationItem(
-              imageAsset: "asset/icon_home.png",
-              isSelected: true,
+                index: 0,
+                imageUrl: "asset/icon_home.png",
             ),
-            CustomBottomNavigationItem(imageAsset: "asset/icon_booking.png"),
-            CustomBottomNavigationItem(imageAsset: "asset/icon_card.png"),
-            CustomBottomNavigationItem(imageAsset: "asset/icon_settings.png")
+            CustomBottomNavigationItem(
+                index: 1,
+                imageUrl: "asset/icon_booking.png"
+            ),
+            CustomBottomNavigationItem(
+                index: 2,
+                imageUrl: "asset/icon_card.png"),
+            CustomBottomNavigationItem(
+                index: 3,
+                imageUrl: "asset/icon_settings.png")
           ],
         ),
       ),

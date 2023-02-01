@@ -1,21 +1,13 @@
+import 'package:booking_travel_app/data/model/destination_model.dart';
 import 'package:booking_travel_app/presentation/pages/main/detail/detail_page.dart';
 import 'package:booking_travel_app/utils/theme.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class NewDestinationCard extends StatelessWidget {
-  final String name;
-  final String city;
-  final String image;
-  final double rating;
+  final DestinationModel destinationModel;
 
-  const NewDestinationCard(
-      {Key? key,
-      required this.name,
-      required this.city,
-      required this.image,
-      required this.rating})
-      : super(key: key);
+  const NewDestinationCard({Key? key, required this.destinationModel }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +32,7 @@ class NewDestinationCard extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      fit: BoxFit.cover, image: AssetImage(image)
+                      fit: BoxFit.cover, image: NetworkImage(destinationModel.imageUrl)
                   )
               ),
             ),
@@ -49,12 +41,12 @@ class NewDestinationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    destinationModel.name,
                     style: Theme.of(context).textTheme.headline6?.copyWith(color: kBlackColor),
                     maxLines: 1,
                   ),
                   Text(
-                    city,
+                    destinationModel.city,
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kGreyColor),
                     maxLines: 1,
                   )
@@ -71,7 +63,7 @@ class NewDestinationCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 3),
                 Text(
-                  rating.toString(),
+                  "${destinationModel.rating}",
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kBlackColor),
                 )
               ],

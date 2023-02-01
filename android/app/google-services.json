@@ -1,0 +1,68 @@
+{
+  "project_info": {
+    "project_number": "728552257969",
+    "project_id": "travel-app-bwa",
+    "storage_bucket": "travel-app-bwa.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728552257969:android:e99e64e81fd7087c8ae590",
+        "android_client_info": {
+          "package_name": "com.android.travel"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728552257969-90dsv5rtptf2fo87ckrit404mkphl3vr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBztSNXBYnliDp28NWesqNJ6juYb03POmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728552257969-90dsv5rtptf2fo87ckrit404mkphl3vr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:728552257969:android:3ea853be5366131e8ae590",
+        "android_client_info": {
+          "package_name": "com.example.booking_travel_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "728552257969-90dsv5rtptf2fo87ckrit404mkphl3vr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBztSNXBYnliDp28NWesqNJ6juYb03POmg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "728552257969-90dsv5rtptf2fo87ckrit404mkphl3vr.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

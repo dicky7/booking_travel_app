@@ -1,3 +1,4 @@
+import 'package:booking_travel_app/presentation/pages/onBoarding/sign_in_page.dart';
 import 'package:booking_travel_app/presentation/pages/onBoarding/sign_up_page.dart';
 import 'package:booking_travel_app/presentation/widget/custom_button.dart';
 import 'package:flutter/material.dart';
@@ -42,7 +43,7 @@ class GetStartedPage extends StatelessWidget {
                   width: 280,
                   margin: const EdgeInsets.only(top: 50, bottom: 80),
                   onPressed: () {
-                    Navigator.pushNamed(context, SignUpPage.routeName);
+                    Navigator.pushNamed(context, SignInPage.routeName);
                   },
                 )
               ],

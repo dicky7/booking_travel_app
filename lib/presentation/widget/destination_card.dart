@@ -1,3 +1,4 @@
+import 'package:booking_travel_app/data/model/destination_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -5,17 +6,9 @@ import '../../utils/theme.dart';
 import '../pages/main/detail/detail_page.dart';
 
 class DestinationCard extends StatelessWidget {
-  final String name;
-  final String city;
-  final String image;
-  final double rating;
+  final DestinationModel destination;
 
-  const DestinationCard(
-      {Key? key,
-        required this.name,
-        required this.city,
-        required this.image,
-        required this.rating}) : super(key: key);
+  const DestinationCard({Key? key, required this.destination,}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +35,8 @@ class DestinationCard extends StatelessWidget {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(15),
                   image: DecorationImage(
-                      image: AssetImage(image)
+                      image: NetworkImage(destination.imageUrl),
+                    fit: BoxFit.cover
                   )
               ),
               child: Align(
@@ -64,7 +58,7 @@ class DestinationCard extends StatelessWidget {
                       ),
                       const SizedBox(width: 3),
                       Text(
-                        rating.toString(),
+                        "${destination.rating}",
                         style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kBlackColor),
                       )
                     ],
@@ -78,12 +72,12 @@ class DestinationCard extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    name,
+                    destination.name,
                     style: Theme.of(context).textTheme.headline6?.copyWith(color: kBlackColor),
                     maxLines: 1,
                   ),
                   Text(
-                    city,
+                    destination.city,
                     style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kGreyColor),
                     maxLines: 1,
                   )
