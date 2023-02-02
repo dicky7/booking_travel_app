@@ -1,14 +1,18 @@
+import 'package:booking_travel_app/data/model/destination_model.dart';
 import 'package:booking_travel_app/presentation/pages/main/detail/choose_seat.dart';
 import 'package:booking_travel_app/presentation/widget/custom_interest.dart';
 import 'package:booking_travel_app/presentation/widget/custom_photo.dart';
 import 'package:booking_travel_app/utils/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../../widget/custom_button.dart';
 
 class DetailPage extends StatelessWidget {
   static const routeName = "/detail";
-  const DetailPage({Key? key}) : super(key: key);
+
+  final DestinationModel destination;
+  const DetailPage({Key? key, required this.destination}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +34,10 @@ class DetailPage extends StatelessWidget {
     return Container(
       height: 450,
       width: double.infinity,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
           image: DecorationImage(
               fit: BoxFit.cover,
-              image: AssetImage("asset/image_destination5.png")
+              image: NetworkImage(destination.imageUrl)
           )
       ),
     );
@@ -81,7 +85,7 @@ class DetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "name",
+                        destination.name,
                         style: Theme.of(context).textTheme.headline5?.copyWith(
                             color: kWhiteColor,
                             fontWeight: FontWeight.w700
@@ -89,7 +93,7 @@ class DetailPage extends StatelessWidget {
                         maxLines: 1,
                       ),
                       Text(
-                        "city",
+                        destination.city,
                         style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kWhiteColor),
                         maxLines: 1,
                       )
@@ -106,7 +110,7 @@ class DetailPage extends StatelessWidget {
                     ),
                     const SizedBox(width: 3),
                     Text(
-                      "rating".toString(),
+                      "${destination.rating}",
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kWhiteColor, fontWeight: FontWeight.w500),
                     )
                   ],
@@ -198,7 +202,11 @@ class DetailPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        "IDR 2.500.000",
+                        NumberFormat.currency(
+                            locale: "id",
+                            symbol: "IDR ",
+                            decimalDigits: 0
+                        ).format(destination.price),
                         style: Theme.of(context).textTheme.headline6?.copyWith(color: kBlackColor),
                       ),
                       const SizedBox(height: 6),
@@ -213,7 +221,7 @@ class DetailPage extends StatelessWidget {
                   title: "Book Now",
                   width: 170,
                   onPressed: () {
-                    Navigator.pushNamed(context, ChooseSeat.routeName);
+                    Navigator.pushNamed(context, ChooseSeat.routeName, arguments: destination);
                   },
                 )
               ],

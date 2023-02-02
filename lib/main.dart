@@ -1,9 +1,13 @@
+import 'package:booking_travel_app/data/model/destination_model.dart';
 import 'package:booking_travel_app/presentation/bloc/auth/auth_cubit.dart';
 import 'package:booking_travel_app/presentation/bloc/destination/destination_cubit.dart';
 import 'package:booking_travel_app/presentation/bloc/main_page/page_cubit.dart';
+import 'package:booking_travel_app/presentation/bloc/seat/seat_cubit.dart';
+import 'package:booking_travel_app/presentation/bloc/transaction/transaction_cubit.dart';
 import 'package:booking_travel_app/presentation/pages/main/detail/checkout_page.dart';
 import 'package:booking_travel_app/presentation/pages/main/detail/choose_seat.dart';
 import 'package:booking_travel_app/presentation/pages/main/detail/detail_page.dart';
+import 'package:booking_travel_app/presentation/pages/main/detail/sucess_checkout_page.dart';
 import 'package:booking_travel_app/presentation/pages/main/home/home_page.dart';
 import 'package:booking_travel_app/presentation/pages/main/main_page.dart';
 import 'package:booking_travel_app/presentation/pages/main/settings/settings_page.dart';
@@ -18,6 +22,7 @@ import 'package:booking_travel_app/utils/theme.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'data/model/transaction_model.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -36,7 +41,9 @@ class MyApp extends StatelessWidget {
       providers: [
         BlocProvider(create: (_) => PageCubit()),
         BlocProvider(create: (_) => AuthCubit()),
-        BlocProvider(create: (_) => DestinationCubit())
+        BlocProvider(create: (_) => DestinationCubit()),
+        BlocProvider(create: (_) => SeatCubit()),
+        BlocProvider(create: (_) => TransactionCubit()),
       ],
       child: MaterialApp(
         theme: ThemeData(textTheme: myTextTheme),
@@ -50,12 +57,20 @@ class MyApp extends StatelessWidget {
           BonusPage.routeName: (context) => const BonusPage(),
           MainPage.routeName: (context) => const MainPage(),
           HomePage.routeName: (context) => const HomePage(),
-          DetailPage.routeName: (context) => const DetailPage(),
-          ChooseSeat.routeName: (context) => const ChooseSeat(),
-          CheckoutPage.routeName: (context) => const CheckoutPage(),
+          DetailPage.routeName: (context) => DetailPage(
+            destination: ModalRoute.of(context)?.settings.arguments as DestinationModel,
+          ),
+          ChooseSeat.routeName: (context) => ChooseSeat(
+            destination: ModalRoute.of(context)?.settings.arguments as DestinationModel,
+          ),
+          CheckoutPage.routeName: (context) => CheckoutPage(
+            transaction: ModalRoute.of(context)?.settings.arguments as TransactionModel,
+          ),
+          SuccessCheckoutPage.routeName: (context) => const SuccessCheckoutPage(),
           TransactionPage.routeName: (context) => const TransactionPage(),
           WalletPage.routeName: (context) => const WalletPage(),
           SettingsPage.routeName: (context) => const SettingsPage(),
+
         },
       ),
     );

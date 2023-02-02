@@ -1,5 +1,12 @@
+import 'package:booking_travel_app/data/model/transaction_model.dart';
+import 'package:booking_travel_app/presentation/bloc/auth/auth_cubit.dart';
+import 'package:booking_travel_app/presentation/bloc/transaction/transaction_cubit.dart';
+import 'package:booking_travel_app/presentation/pages/main/detail/sucess_checkout_page.dart';
 import 'package:booking_travel_app/presentation/widget/checkout_detail_item.dart';
+import 'package:booking_travel_app/presentation/widget/transaction_card.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
 
 import '../../../../utils/theme.dart';
 import '../../../widget/custom_button.dart';
@@ -8,7 +15,9 @@ import '../main_page.dart';
 
 class CheckoutPage extends StatelessWidget {
   static const routeName = "/checkout";
-  const CheckoutPage({Key? key}) : super(key: key);
+
+  final TransactionModel transaction;
+  const CheckoutPage({Key? key, required this.transaction}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +31,7 @@ class CheckoutPage extends StatelessWidget {
             child: Column(
               children: [
                 buildHeader(context),
-                bookingDetails(context),
+                TransactionCard(transaction: transaction),
                 paymentDetails(context),
                 paynowButton(context),
                 tagButton(context)
@@ -84,193 +93,113 @@ class CheckoutPage extends StatelessWidget {
     );
   }
 
-  Widget destinationBooking(BuildContext context){
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        Container(
-          width: 70,
-          height: 70,
-          margin: const EdgeInsets.only(right: 16),
-          decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(15),
-              image: const DecorationImage(
-                  fit: BoxFit.cover, image: AssetImage("asset/image_destination8.png")
-              )
-          ),
-        ),
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Rome",
-                style: Theme.of(context).textTheme.headline6?.copyWith(color: kBlackColor),
-                maxLines: 1,
-              ),
-              Text(
-                "Italy",
-                style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kGreyColor),
-                maxLines: 1,
-              )
-            ],
-          ),
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset(
-              "asset/icon_star.png",
-              height: 17,
-              width: 17,
-            ),
-            const SizedBox(width: 3),
-            Text(
-              "4.8",
-              style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kBlackColor),
-            )
-          ],
-        ),
-      ],
-    );
-  }
 
-  Widget bookingDetails(BuildContext context){
-    return Container(
-      margin: const EdgeInsets.only(top: 30),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      width: double.infinity,
-      decoration: BoxDecoration(
-        color: kWhiteColor,
-        borderRadius: BorderRadius.circular(15)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          destinationBooking(context),
-          const SizedBox(height: 20),
 
-          //NOTE: BOOKING DETAIL
-          Text(
-            "Booking Details",
-            style: Theme.of(context).textTheme.headline6?.copyWith(
-                color: kBlackColor,
-                fontWeight: FontWeight.w600
-            ),
-          ),
-
-          //NOTE: BOOKING DETAIL ITEM
-          BookingDetailItem(
-              title: "Traveler",
-              valueText: "2 person",
-              valueColor: kBlackColor
-          ),
-          BookingDetailItem(
-              title: "Seat",
-              valueText: "A3, B3",
-              valueColor: kBlackColor
-          ),
-          BookingDetailItem(
-              title: "Insurance",
-              valueText: "YES",
-              valueColor: kGreenColor
-          ),
-          BookingDetailItem(
-              title: "Refundable",
-              valueText: "No",
-              valueColor: kRedColor
-          ),
-          BookingDetailItem(
-              title: "VAT",
-              valueText: "45%",
-              valueColor: kBlackColor
-          ),
-          BookingDetailItem(
-              title: "Price",
-              valueText: "IDR 8.500.690",
-              valueColor: kBlackColor
-          ),
-          BookingDetailItem(
-              title: "Grand Total",
-              valueText: "IDR 12.000.000",
-              valueColor: kBlackColor
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget paymentDetails(BuildContext context){
-    return Container(
-      margin: const EdgeInsets.symmetric(vertical: 30),
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
-      decoration: BoxDecoration(
-        color: kWhiteColor,
-        borderRadius: BorderRadius.circular(15)
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Payment Details",
-            style: Theme.of(context).textTheme.headline6?.copyWith(
-                color: kBlackColor,
-                fontWeight: FontWeight.w600
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        if (state is AuthSuccess) {
+          return Container(
+            margin: const EdgeInsets.symmetric(vertical: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+            decoration: BoxDecoration(
+                color: kWhiteColor,
+                borderRadius: BorderRadius.circular(15)
             ),
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              Container(
-                height: 70,
-                width: 100,
-                margin: const EdgeInsets.only(right: 16),
-                decoration: BoxDecoration(
-                    color: kPrimaryColor,
-                    borderRadius: BorderRadius.circular(15)
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  "Payment Details",
+                  style: Theme.of(context).textTheme.headline6?.copyWith(
+                      color: kBlackColor,
+                      fontWeight: FontWeight.w600
+                  ),
                 ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                const SizedBox(height: 16),
+                Row(
                   children: [
-                    Image.asset(
-                      "asset/icon_plane.png",
-                      width: 24,
-                      height: 24,
+                    Container(
+                      height: 70,
+                      width: 100,
+                      margin: const EdgeInsets.only(right: 16),
+                      decoration: BoxDecoration(
+                          color: kPrimaryColor,
+                          borderRadius: BorderRadius.circular(15)
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Image.asset(
+                            "asset/icon_plane.png",
+                            width: 24,
+                            height: 24,
+                          ),
+                          const SizedBox(width: 6),
+                          Text(
+                            "Pay",
+                            style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kWhiteColor),
+                          ),
+                        ],
+                      ),
                     ),
-                    const SizedBox(width: 6),
-                    Text(
-                      "Pay",
-                      style: Theme.of(context).textTheme.bodyText1?.copyWith(color: kWhiteColor),
-                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          NumberFormat.currency(
+                              locale: "id",
+                              symbol: "IDR ",
+                              decimalDigits: 0
+                          ).format(state.userModel.balance),
+                          style: Theme.of(context).textTheme.headline6?.copyWith(color: kBlackColor),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                        Text(
+                          "Current Balance",
+                          style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kGreyColor),
+                        ),
+                      ],
+                    )
                   ],
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "IDR. 200.000.000",
-                    style: Theme.of(context).textTheme.headline6?.copyWith(color: kBlackColor),
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  Text(
-                    "Current Balance",
-                    style: Theme.of(context).textTheme.bodyText2?.copyWith(color: kGreyColor),
-                  ),
-                ],
-              )
-            ],
-          )
-        ],
-      ),
+                )
+              ],
+            ),
+          );
+        }else{
+          return const SizedBox();
+        }
+      },
     );
   }
 
   Widget paynowButton(BuildContext context){
-    return CustomButton(
-      title: "Pay Now",
-      onPressed: () {
-        Navigator.pushReplacementNamed(context, MainPage.routeName);
+    return BlocConsumer<TransactionCubit, TransactionState>(
+      listener: (context, state) {
+        if (state is TransactionSuccess) {
+          Navigator.pushReplacementNamed(context, SuccessCheckoutPage.routeName);
+        }else if (state is TransactionError) {
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                  backgroundColor: kRedColor,
+                  content: Text(state.message)
+              )
+          );
+        }
+      },
+      builder: (context, state) {
+        if (state is TransactionLoading) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return CustomButton(
+          title: "Pay Now",
+          onPressed: () {
+            context.read<TransactionCubit>().createTransaction(transaction);
+          },
+        );
       },
     );
   }

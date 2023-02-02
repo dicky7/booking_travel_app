@@ -13,7 +13,7 @@ class NewDestinationCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, DetailPage.routeName);
+        Navigator.pushNamed(context, DetailPage.routeName, arguments: destinationModel);
       },
       child: Container(
         width: double.infinity,
